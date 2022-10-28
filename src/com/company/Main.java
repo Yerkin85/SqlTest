@@ -73,7 +73,8 @@ public class Main {
                   double lat2 = res.getDouble("lat2");
                   double lon2 = res.getDouble("lon2");
                   double distance = res.getDouble("distance");
-                  System.out.println(String.format("name=%s lat1=%s lon1=%s lat2=%s lon2=%s", name,lat1,lon1,lat2,lon2,distance));
+                // System.out.println(String.format("name = %s lat1 = %s lon1 = %s lat2 = %s lon2 = %s distance = %s", name,lat1,lon1,lat2,lon2,distance));
+                  System.out.println("Имя: " + name + "\n" + "Широта точки №1: " + lat1 + "\n" + "Долгота точки №1: " + lon1 + "\n" + "Широта точки №2: " + lat2 +"\n" + "Долгота точки №2: " + lon2 + "\n" + "Расстояние между координатами: " + distance + " км");
               }
               res.close();
               statement.close();
