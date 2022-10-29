@@ -17,51 +17,58 @@ public class Main {
             statement.executeUpdate(sql);
             System.out.println("table created");
             statement.close();*/
-
             c.close();
         } catch (Exception e) {
             System.out.println("Something goes wrong");
             e.printStackTrace();
         }
-
-        // insertRecord();
-        selectData();
+         insertRecord();
+        // selectData();
         }
         public static void insertRecord() throws SQLException {
+            boolean finish = false;
         Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/users", "postgres", "123456");
         String sql = "insert into users(name, lat1, lon1, lat2, lon2, distance) values(?,?,?,?,?,?)";
+          while(!finish) {
+              try{
+                PreparedStatement preparedStatement = c.prepareStatement(sql);
+                System.out.println("Введите имя : ");
+                preparedStatement.setString(1, sc.nextLine());
 
-            PreparedStatement preparedStatement = c.prepareStatement(sql);
-            System.out.println("Введите имя : ");
-            preparedStatement.setString(1, sc.nextLine());
+                System.out.println("Введите широту точки №1: ");
+                double lat1 = sc.nextDouble();
+                preparedStatement.setDouble(2, lat1);
 
-            System.out.println("Введите широту точки №1: ");
-            double lat1 = sc.nextDouble();
-            preparedStatement.setDouble(2, lat1);
+                System.out.println("Введите долготу точки №1: ");
+                double lon1 = sc.nextDouble();
+                preparedStatement.setDouble(3, lon1);
 
-            System.out.println("Введите долготу точки №1: ");
-            double lon1 = sc.nextDouble();
-            preparedStatement.setDouble(3, lon1);
+                System.out.println("Введите широту точки №2: ");
+                double lat2 = sc.nextDouble();
+                preparedStatement.setDouble(4, lat2);
 
-            System.out.println("Введите широту точки №2: ");
-            double lat2 = sc.nextDouble();
-            preparedStatement.setDouble(4, lat2);
+                System.out.println("Введите долготу точки №2: ");
+                double lon2 = sc.nextDouble();
+                preparedStatement.setDouble(5, lon2);
 
-            System.out.println("Введите долготу точки №2: ");
-            double lon2 = sc.nextDouble();
-            preparedStatement.setDouble(5, lon2);
+                double distance = Math.round((2 * Math.asin(Math.sqrt(Math.pow(Math.sin((Math.toRadians(lat2) - Math.toRadians(lat1)) / 2), 2)
+                        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.pow(Math.sin((Math.toRadians(lon2) - Math.toRadians(lon1)) / 2), 2)))) * 6371);
+                preparedStatement.setDouble(6, distance);
+                int rows = preparedStatement.executeUpdate();
+                finish = true;}
+              catch (Exception e) {
+                  String entered = sc.nextLine();
 
-
-            double distance = Math.round((2 * Math.asin(Math.sqrt(Math.pow(Math.sin((Math.toRadians(lat2) - Math.toRadians(lat1)) / 2), 2)
-                    + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                    Math.pow(Math.sin((Math.toRadians(lon2) - Math.toRadians(lon1)) / 2), 2)))) * 6371);
-            preparedStatement.setDouble(6, distance);
-            int rows =  preparedStatement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("inserted successfully");
+                  System.out.println("Координаты точек были введены неправильно.");
+                  System.out.println("Укажите координаты точек в следующей форме: 00,0000(Пример:74,1456).");
+                  e.printStackTrace();
+              }
+              }
+            System.out.println("inserted successfully");
             }
-        }
-            public static void selectData() throws SQLException {
+
+    /* public static void selectData() throws SQLException {
               Statement statement;
             Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/users", "postgres", "123456");
               statement = c.createStatement();
@@ -79,5 +86,5 @@ public class Main {
               res.close();
               statement.close();
 
-            }
+            }*/
 }
