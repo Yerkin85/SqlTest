@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
              try {
-            Class.forName("org.postgresql.Driver");
+           Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/users", "postgres", "123456");
             System.out.println("Database successfully connected");
             /* String sql = "create table users" + "(name text , lat1 real, lon1 real, lat2 real, lon2 real, distance real)";
